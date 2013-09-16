@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Security.Cryptography;
-
+using System.Runtime.Serialization.Json;
  
 class Program
 {
@@ -14,29 +15,29 @@ class Program
   //static string riskified_url = "http://app.riskified.com/webhooks/merchant_order_created";
   static string riskified_url = "http://localhost:3000/webhooks/merchant_order_created";
 
-  static Hashtable GetHashtable()
-  {
-    // Create and return new Hashtable.
-    Hashtable hashtable = new Hashtable();
-    hashtable.Add("Area", 1000);
-    hashtable.Add("Perimeter", 55);
-    hashtable.Add("Mortgage", 540);
-    return hashtable;
-  }
-  
   static string calcHmac( string data )
   {
     byte[] key = Encoding.ASCII.GetBytes(AUTH_TOKEN);
     HMACSHA256 myhmacsha256 = new HMACSHA256(key);
     byte[] byteArray = Encoding.ASCII.GetBytes(data);
     MemoryStream stream = new MemoryStream(byteArray);
-    return myhmacsha256.ComputeHash(stream).Aggregate("", (s, e) => s + String.Format("{0:x2}",e), s => s );
+    string result = myhmacsha256.ComputeHash(stream).Aggregate("", (s, e) => s + String.Format("{0:x2}",e), s => s );
+    Console.WriteLine(result);
+    return result;
+  }
+
+  static string getOrderString()
+  {
+    // Example #1 
+    // Read the file as one string. 
+    string json_order_string = System.IO.File.ReadAllText(@"order.json");
+    return json_order_string;
   }
 
   static void doPost( string postData )
   {
 
-    WebRequest request = WebRequest.Create (riskified_url);
+    HttpWebRequest request = (HttpWebRequest)WebRequest.Create (riskified_url);
     request.Method = "POST";
 
     // Create POST data and convert it to a byte array.
@@ -44,11 +45,13 @@ class Program
 
     request.ContentType = "application/json";
     request.ContentLength = byteArray.Length;
+    request.Accept="*/*";
     
     // Set custom Riskified headers
     string hash_code = calcHmac(postData);
     request.Headers.Add("X_RISKIFIED_HMAC_SHA256",hash_code);
     request.Headers.Add("X_RISKIFIED_SHOP_DOMAIN",DOMAIN);
+    request.Headers.Add("Accept-Encoding","gzip,deflate,sdch");
 
     Stream dataStream = request.GetRequestStream ();
     dataStream.Write (byteArray, 0, byteArray.Length);
@@ -70,21 +73,8 @@ class Program
 
   static void Main()
   {
-    Hashtable hashtable = GetHashtable();
-
-    // See if the Hashtable contains this key.
-    Console.WriteLine(hashtable.ContainsKey("Perimeter"));
-
-    // Test the Contains method. It works the same way.
-    Console.WriteLine(hashtable.Contains("Area"));
-
-    // Get value of Area with indexer.
-    int value = (int)hashtable["Area"];
-
-    // Write the value of Area.
-    Console.WriteLine(value);
-
-    string postData = "{ \"one\": \"This is a test that posts this string to a Web server.\" }";
+    string postData = getOrderString();
+    Console.WriteLine(postData);
     doPost(postData);
   }
 }
