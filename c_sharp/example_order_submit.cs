@@ -10,10 +10,9 @@ using System.Runtime.Serialization.Json;
  
 class Program
 {
-  static string DOMAIN = "moddeals.com";
-  static string AUTH_TOKEN = "f2ac8ce7705b33841dff084066aa6341";
-  //static string riskified_url = "http://app.riskified.com/webhooks/merchant_order_created";
-  static string riskified_url = "http://localhost:3000/webhooks/merchant_order_created";
+  static string DOMAIN = "YOUR_SHOW_DOMAIN";
+  static string AUTH_TOKEN = "YOUR_AUTH_TOKEN";
+  static string riskified_url = "http://riskified-sandbox.herokuapp.com/webhooks/merchant_order_created";
 
   static string calcHmac( string data )
   {
@@ -28,7 +27,6 @@ class Program
 
   static string getOrderString()
   {
-    // Example #1 
     // Read the file as one string. 
     string json_order_string = System.IO.File.ReadAllText(@"order.json");
     return json_order_string;
@@ -40,7 +38,6 @@ class Program
     HttpWebRequest request = (HttpWebRequest)WebRequest.Create (riskified_url);
     request.Method = "POST";
 
-    // Create POST data and convert it to a byte array.
     byte[] byteArray = Encoding.UTF8.GetBytes (postData);
 
     request.ContentType = "application/json";
@@ -71,7 +68,7 @@ class Program
     response.Close ();
   }
 
-  static void Main()
+  static void Main( string[] args )
   {
     string postData = getOrderString();
     Console.WriteLine(postData);
