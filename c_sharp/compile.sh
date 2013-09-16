@@ -1,5 +1,5 @@
 # compile
-gmcs /reference:System.Json.dll from_php.cs
+gmcs /reference:System.Json.dll example_order_submit.cs
 # execute
-mono
+mono example_order_submit.exe
 
