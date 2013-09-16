@@ -9,8 +9,8 @@ using System.Security.Cryptography;
  
 class Program
 {
-  static string DOMAIN = "farfetch.com";
-  static string AUTH_TOKEN = "<YOUR AUTH TOKEN>";
+  static string DOMAIN = "moddeals.com";
+  static string AUTH_TOKEN = "f2ac8ce7705b33841dff084066aa6341";
   //static string riskified_url = "http://app.riskified.com/webhooks/merchant_order_created";
   static string riskified_url = "http://localhost:3000/webhooks/merchant_order_created";
 
@@ -27,10 +27,10 @@ class Program
   static string calcHmac( string data )
   {
     byte[] key = Encoding.ASCII.GetBytes(AUTH_TOKEN);
-    HMACSHA1 myhmacsha1 = new HMACSHA1(key);
+    HMACSHA256 myhmacsha256 = new HMACSHA256(key);
     byte[] byteArray = Encoding.ASCII.GetBytes(data);
     MemoryStream stream = new MemoryStream(byteArray);
-    return myhmacsha1.ComputeHash(stream).Aggregate("", (s, e) => s + String.Format("{0:x2}",e), s => s );
+    return myhmacsha256.ComputeHash(stream).Aggregate("", (s, e) => s + String.Format("{0:x2}",e), s => s );
   }
 
   static void doPost( string postData )
@@ -242,19 +242,6 @@ class Program
 		// json encode
 		$data_string = json_encode($data);
 		
-		//generating hash 
-		$hash_code = hash_hmac('sha256', $data_string, $auth_token);
- 
-		$ch = curl_init('http://app.riskified.com/webhooks/merchant_order_created');
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		'Content-Type: application/json',
-		'Content-Length: ' . strlen($data_string),
-		'X_RISKIFIED_SHOP_DOMAIN:'.$domain,
-		'X_RISKIFIED_HMAC_SHA256:'.$hash_code)
-		);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
  
 		$result = curl_exec($ch);
