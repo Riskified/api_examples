@@ -16,40 +16,41 @@ $data['id'] 			= 111;
 $data['name'] 			= '111';
 $data['email']			= "eyal@riskified.com";
 $data['total_spent']	= 200;
-/*$data['created_at']		= $order_model->getCreatedAt();
-$data['updated_at']		= $order_model->getUpdatedAt();
+$data['created_at'] = "2013-10-13 14:58:04";
+$data['updated_at'] = "2013-10-13 14:58:04";
 $data['gateway']		= "authorize.net";
-$data['browser_ip']		= "4.4.4.4";
+$data['browser_ip']		= "124.185.86.55";
 $data['buyer_accepts_marketing']	=NULL;
 $data['cancel_reason']	=NULL;
 $data['cancelled_at']	=NULL;
-$data['cart_token']		=NULL;
+$data['cart_token']		='1212';
 $data['closed_at']		=NULL;
-$data['currency']		=$order_model->getBaseCurrencyCode();
 $data['financial_status']=NULL;
 $data['fulfillment_status']	=NULL;
 $data['landing_site']	="/";
-$data['note']			= $order_model->getCustomerNote();
 $data['number']			=NULL;
 $data['reference']		=NULL;
 $data['referring_site']	=NULL;
 $data['source']			=NULL;
-$data['subtotal_price']	= $order_model->getBaseSubtotalInclTax();
 $data['taxes_included']	=TRUE;
 $data['token']			=NULL;
+$data['total_price']	=$order_model->getGrandTotal();
+$data['order_number']	="1000200304";
+$data['note_attributes'] = NULL;
+$data['processing_method'] = NULL;
+$data['checkout_id']	=NULL;
+/*
+$data['currency']		=$order_model->getBaseCurrencyCode();
+$data['note']			= $order_model->getCustomerNote();
+$data['subtotal_price']	= $order_model->getBaseSubtotalInclTax();
 $data['total_discounts']= $order_model->getDiscountAmount();
 $data['total_line_items_price']	= $order_model->getGrandTotal();
-$data['total_price']	=$order_model->getGrandTotal();
 $data['total_price_usd']=$order_model->getGrandTotal();
 $data['total_tax']		=$order_model->getBaseTaxAmount();
 $data['total_weight']	= $order_model->getWeight();
 $data['user_id']		=$order_model->getCustomerId();
 $data['landing_site_ref']=NULL;
-$data['order_number']	=$order_model->getId();
 $data['discount_codes']	=$order_model->getDiscountDescription();
-$data['note_attributes'] = NULL;
-$data['processing_method'] = NULL;
-$data['checkout_id']	=NULL;
 
 // line items
 foreach ($order_model->getItemsCollection() as $key => $val)
@@ -122,25 +123,24 @@ $data['customer']['total_spent']	= $total;
 $data['customer']['updated_at']	= $customer_details->getUpdatedAt();
 $data['customer']['tags']	=NULL;
 $data['customer']['last_order_name']	=NULL;
+ */
 
 
 //billing info
-$billing_address = $order_model->getBillingAddress();
-$add = $billing_address->getStreet();
-
-$data['billing_address']['first_name'] 	= $billing_address->getFirstname();
-$data['billing_address']['last_name']	= $billing_address->getLastname();
-$data['billing_address']['name']   	    = $data['billing_address']['first_name'] . " " . $data['billing_address']['last_name'];
-$data['billing_address']['address1'] 	= $add['0'];
-$data['billing_address']['address2'] 	= $add['1'];
-$data['billing_address']['city'] 		= $billing_address->getCity();
-$data['billing_address']['company'] 	= $billing_address->getCompany();
-$data['billing_address']['country'] 	= getCountyById($billing_address->getCountryId())->getName();
-$data['billing_address']['country_code']= $billing_address->getCountryId();
-$data['billing_address']['phone'] 		= $billing_address->getTelephone();
-$data['billing_address']['province'] 	= $billing_address->getRegion();
-$data['billing_address']['zip'] 		= $billing_address->getPostcode();
+$data['billing_address']['first_name'] 	= 'Zvika';
+$data['billing_address']['last_name']	= 'A';
+#$data['billing_address']['name']   	    = ;
+$data['billing_address']['address1'] 	= '108 st';
+#$data['billing_address']['address2'] 	= $add['1'];
+$data['billing_address']['city'] 		= 'kansas city';
+#$data['billing_address']['company'] 	= $billing_address->getCompany();
+$data['billing_address']['country'] 	= 'united states';
+$data['billing_address']['country_code']= 'US';
+#$data['billing_address']['phone'] 		= $billing_address->getTelephone();
+#$data['billing_address']['province'] 	= $billing_address->getRegion();
+$data['billing_address']['zip'] 		= '64155';
 $data['billing_address']['province']	= NULL;
+/*
 
 //shipping info
 $shipping_address = $order_model->getShippingAddress();
