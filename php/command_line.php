@@ -8,15 +8,15 @@
     echo("Running from CLI\n");
     else
     echo("Not Running from CLI");
-    
-    $domain = "magento.riskified.com";
-    $auth_token = "dddd";
-    $is_production_mode = false; // Determines whether to send the request to the sandbox account or the production account.
+    # Use here the 'shop domain' of your account in Riskified
+    $domain = <YOUR SHOP DOMAIN>;
+    # Use here the 'auth token' as listed in the Riskified web app under the 'Settings' Tab
+    $auth_token = <YOUR AUTH TOKEN>;
     
     $riskified_url = "sandbox.riskified.com";
-    if ($is_production_mode) {
-        $riskified_url = "app.riskified.com";
-    }
+    # When in production mode use the production domain
+    #$riskified_url = "app.riskified.com";
+    
     echo ("Riskified URL is $riskified_url\n");
     
     // Fill NULL fields if this information is available.
