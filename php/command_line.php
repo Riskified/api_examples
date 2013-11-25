@@ -3,172 +3,175 @@
 // A simple example of creating an order from the command line.
 // Run using php command_line.php
 
+
 if(defined('STDIN') ) 
-  echo("Running from CLI"); 
+  echo("Running from CLI\n"); 
 else 
   echo("Not Running from CLI"); 
 
-$domain = "test.magento.com";
-$auth_token = "YOUR AUTH TOKEN";
+$domain = "magento.riskified.com";
+$auth_token = "dddd";
+$is_production_mode = false; // Determines whether to send the request to the sandbox account or the production account.
 
-$data = array();
-$data['id'] 			= 111;
-$data['name'] 			= '111';
-$data['email']			= "eyal@riskified.com";
-$data['total_spent']	= 200;
-$data['created_at'] = "2013-10-13 14:58:04";
-$data['updated_at'] = "2013-10-13 14:58:04";
-$data['gateway']		= "authorize.net";
-$data['browser_ip']		= "124.185.86.55";
-$data['buyer_accepts_marketing']	=NULL;
-$data['cancel_reason']	=NULL;
-$data['cancelled_at']	=NULL;
-$data['cart_token']		='1212';
-$data['closed_at']		=NULL;
-$data['financial_status']=NULL;
-$data['fulfillment_status']	=NULL;
-$data['landing_site']	="/";
-$data['number']			=NULL;
-$data['reference']		=NULL;
-$data['referring_site']	=NULL;
-$data['source']			=NULL;
-$data['taxes_included']	=TRUE;
-$data['token']			=NULL;
-$data['total_price']	=$order_model->getGrandTotal();
-$data['order_number']	="1000200304";
-$data['note_attributes'] = NULL;
-$data['processing_method'] = NULL;
-$data['checkout_id']	=NULL;
-/*
-$data['currency']		=$order_model->getBaseCurrencyCode();
-$data['note']			= $order_model->getCustomerNote();
-$data['subtotal_price']	= $order_model->getBaseSubtotalInclTax();
-$data['total_discounts']= $order_model->getDiscountAmount();
-$data['total_line_items_price']	= $order_model->getGrandTotal();
-$data['total_price_usd']=$order_model->getGrandTotal();
-$data['total_tax']		=$order_model->getBaseTaxAmount();
-$data['total_weight']	= $order_model->getWeight();
-$data['user_id']		=$order_model->getCustomerId();
-$data['landing_site_ref']=NULL;
-$data['discount_codes']	=$order_model->getDiscountDescription();
-
-// line items
-foreach ($order_model->getItemsCollection() as $key => $val)
-{
-  $data['line_items'][]['fulfillment_service']	=NULL;
-  $data['line_items'][]['fulfillment_status']	=NULL;
-  $data['line_items'][]['grams']	= $val->getWeight();
-  $data['line_items'][]['id']	= $val->getItemId();
-  $data['line_items'][]['price']	= $val->getPrice();
-  $data['line_items'][]['product_id']	= $val->getItemId();
-  $data['line_items'][]['quantity']	= $val->getQtyOrdered();
-  $data['line_items'][]['requires_shipping']	=NULL;
-  $data['line_items'][]['sku']	= $val->getSku();
-  $data['line_items'][]['title']	= $val->getName();
-  $data['line_items'][]['variant_id']	=NULL;
-  $data['line_items'][]['variant_title']	=NULL;
-  $data['line_items'][]['vendor']	= $order_model->getStoreName();
-  $data['line_items'][]['name']	= $val->getName();
-  $data['line_items'][]['variant_inventory_management']	=NULL;
-  $data['line_items'][]['properties']	=NULL;
+$riskified_url = "sandbox.riskified.com";
+if ($is_production_mode) {
+  $riskified_url = "app.riskified.com";
 }
+echo ("Riskified URL is $riskified_url\n");
+
+// Fill NULL fields if this information is available.
+// Fill other field with the information you have.
+$data = array();
+$data['id'] 			              = 111;
+$data['name'] 			            = 'Order #111';
+$data['email']			            = "great.customer@example.com";
+$data['total_spent']	          = 200;
+$data['created_at']             = "2013-10-13 14:58:04";
+$data['currency']               = "USD";
+$data['updated_at']             = "2013-10-13 14:58:04";
+$data['gateway']		            = "mypaymentprocessor"; // paypal, authorize.net, ...
+$data['browser_ip']		          = "124.185.86.55";
+$data['buyer_accepts_marketing']= NULL;
+$data['cancel_reason']	        = NULL;
+$data['cancelled_at']	          = NULL;
+$data['cart_token']		          = '1sdaf23j212';
+$data['closed_at']		          = NULL;
+$data['financial_status']       = NULL;
+$data['fulfillment_status']	    = NULL;
+$data['landing_site']	          = "/";
+$data['landing_site_ref']       = NULL;
+$data['note']                   = "Shipped to my hotel.";
+$data['number']			            = NULL;
+$data['order_number']	          = "1000200304";
+$data['reference']	          	= NULL;
+$data['referring_site']	        = "google.com";
+$data['source']			            = NULL;
+$data['subtotal_price']         = 102.12;
+$data['taxes_included']	        = TRUE;
+$data['token']			            = NULL;
+$data['total_line_items_price'] = 102.12;
+$data['total_price']	          = 113.23;
+$data['total_price_usd']        = 113.23;
+$data['total_discounts']        = 5;
+$data['total_tax']              = 5;
+$data['total_weight']           = "2 lbs.";
+$data['user_id']                = "1211";
+$data['discount_codes']         = "Black Friday";
+$data['note_attributes']        = NULL;
+$data['processing_method']      = NULL;
+$data['checkout_id']	          = NULL;
+
+// line items - multiple items can be added.
+$data['line_items'][0]['fulfillment_service']	          = NULL;
+$data['line_items'][0]['fulfillment_status']	          = NULL;
+$data['line_items'][0]['grams']                         = 100;
+$data['line_items'][0]['id']	                          = 1011;
+$data['line_items'][0]['price']	                        = 100;
+$data['line_items'][0]['product_id']	                  = 101;
+$data['line_items'][0]['quantity']	                    = 1;
+$data['line_items'][0]['requires_shipping']	            = true;
+$data['line_items'][0]['sku']	                          = "ABCD";
+$data['line_items'][0]['title']	                        = "ACME Widget";
+$data['line_items'][0]['variant_id']	                  = NULL;
+$data['line_items'][0]['variant_title']      	          = NULL;
+$data['line_items'][0]['vendor']	                      = "ACME";
+$data['line_items'][0]['name']	                        = "ACME Widget";
+$data['line_items'][0]['variant_inventory_management']	= NULL;
+$data['line_items'][0]['properties']	                  = NULL;
+
+$data['line_items'][1]['fulfillment_service']	          = NULL;
+$data['line_items'][1]['fulfillment_status']	          = NULL;
+$data['line_items'][1]['grams']                         = 90;
+$data['line_items'][1]['id']	                          = 1012;
+$data['line_items'][1]['price']	                        = 100;
+$data['line_items'][1]['product_id']	                  = 101;
+$data['line_items'][1]['quantity']	                    = 1;
+$data['line_items'][1]['requires_shipping']	            = true;
+$data['line_items'][1]['sku']	                          = "ABCD";
+$data['line_items'][1]['title']	                        = "ACME Widget";
+$data['line_items'][1]['variant_id']	                  = NULL;
+$data['line_items'][1]['variant_title']      	          = NULL;
+$data['line_items'][1]['vendor']	                      = "ACME";
+$data['line_items'][1]['name']	                        = "ACME Widget";
+$data['line_items'][1]['variant_inventory_management']	= NULL;
+$data['line_items'][1]['properties']	                  = NULL;
 
 //shipping details
-$data ['shipping_lines'][]['code']	= $order_model->getShippingMethod();
-$data ['shipping_lines'][]['price']	= $order_model->getShippingAmount();
-$data ['shipping_lines'][]['source']	= NULL;
-$data ['shipping_lines'][]['title']	= $order_model->getShippingDescription();
-$data['tax_lines']	= NULL;
+$data ['shipping_lines'][]['code']	 = "1";
+$data ['shipping_lines'][]['price']	 = 10;
+$data ['shipping_lines'][]['source'] = "Fed Ex";
+$data ['shipping_lines'][]['title']	 = "Overnight shipping";
+$data['tax_lines']	                 = NULL;
 
 // payment details
-$payment_details = $order_model->getPayment();
-
-$bin_number = 
-
-  $data['payment_details']['credit_card_bin']	= $payment_details['bin_number'];
-$data['payment_details']['avs_result_code']	= $payment_details['cc_avs_result_code'];
-$data['payment_details']['cvv_result_code']	= $payment_details['cc_response_code'];
-$data['payment_details']['cvv_result_code']	= $payment_details['paypal_cvv2_match'];
-$data['payment_details']['credit_card_number']	= "XXXX-XXXX-".$payment_details['cc_last4'];
-$data['payment_details']['credit_card_company']= $payment_details['cc_type'];
-
-$data['fulfillments']	=NULL;
+$data['payment_details']['credit_card_bin']	    = "370002";
+$data['payment_details']['avs_result_code']	    = "Y";
+$data['payment_details']['cvv_result_code']	    = "N";
+$data['payment_details']['credit_card_number']  = "XXXX-XXXX-"."1234"; // We never store or look at full credit card numbers.
+$data['payment_details']['credit_card_company'] = "VISA";
+$data['fulfillments']	                          = NULL;
 
 // client details
-$data['client_details']['accept_language']	=NULL;
-$data['client_details']['browser_ip']	= $order_model->getRemoteIp();;
-$data['client_details']['session_hash']	=NULL;
-$data['client_details']['user_agent']	= $order_model->getHttpUserAgent();
+$data['client_details']['accept_language'] = "English";
+$data['client_details']['browser_ip']	     = "124.185.86.55";
+$data['client_details']['session_hash']	   = NULL;
+$data['client_details']['user_agent']	     = "Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1667.0 Safari/537.36";
 
+$data['customer']['accepts_marketing'] = NULL;
+$data['customer']['created_at']	       = "31/1/2012";
+$data['customer']['email']	           = "greatcustomer@example.com";
+$data['customer']['first_name']	       = "Gary";
+$data['customer']['id']	               = "1211";
+$data['customer']['last_name']	       = "Great";
 
-$data['customer']['accepts_marketing']	=NULL;
-$data['customer']['created_at']	= $customer_details->getCreatedAt();
-$data['customer']['email']	= $customer_details->getEmail();
-$data['customer']['first_name']	=$customer_details->getFirstname();
-$data['customer']['id']	= $customer_details->getEntityId();
-$data['customer']['last_name']	= $customer_details->getLastname();
-
-$customer_details = load($customer_id);
-$total = 0;
-foreach ($customer_order_details as $num => $entity_id){
-  $last_id = $entity_id->getData('entity_id');
-  $total = $total+$entity_id->getData('base_grand_total');
-}
-
-$data['customer']['last_order_id']	=$last_id;
-$data['customer']['note']	=NULL;
-$data['customer']['orders_count']	= ++$num;
-$data['customer']['state']	=NULL;
-$data['customer']['total_spent']	= $total;
-$data['customer']['updated_at']	= $customer_details->getUpdatedAt();
-$data['customer']['tags']	=NULL;
-$data['customer']['last_order_name']	=NULL;
- */
-
+$data['customer']['last_order_id']   = 103;
+$data['customer']['note']	           = NULL;
+$data['customer']['orders_count']	   = 12;
+$data['customer']['state']	         = NULL;
+$data['customer']['total_spent']	   = 1400;
+$data['customer']['updated_at']	     = "1/1/2009";
+$data['customer']['tags']	           = NULL;
+$data['customer']['last_order_name'] = NULL;
 
 //billing info
-$data['billing_address']['first_name'] 	= 'Zvika';
-$data['billing_address']['last_name']	= 'A';
-#$data['billing_address']['name']   	    = ;
-$data['billing_address']['address1'] 	= '108 st';
-#$data['billing_address']['address2'] 	= $add['1'];
-$data['billing_address']['city'] 		= 'kansas city';
-#$data['billing_address']['company'] 	= $billing_address->getCompany();
-$data['billing_address']['country'] 	= 'united states';
-$data['billing_address']['country_code']= 'US';
-#$data['billing_address']['phone'] 		= $billing_address->getTelephone();
-#$data['billing_address']['province'] 	= $billing_address->getRegion();
-$data['billing_address']['zip'] 		= '64155';
-$data['billing_address']['province']	= NULL;
-/*
+$data['billing_address']['first_name']   = 'Gary';
+$data['billing_address']['last_name']	   = 'Great';
+$data['billing_address']['name']   	     = "Gary Great"; // Can also be a formula such as first name + last name
+$data['billing_address']['address1'] 	   = '108 Main Street';
+$data['billing_address']['address2'] 	   = 'Apartment 12';
+$data['billing_address']['city'] 		     = 'Kansas City';
+$data['billing_address']['company'] 	   = "Kansas Computers";
+$data['billing_address']['country'] 	   = 'United States';
+$data['billing_address']['country_code'] = 'US';
+$data['billing_address']['phone'] 		   = '12345345';
+$data['billing_address']['province'] 	   = 'MI';
+$data['billing_address']['zip'] 		     = '64155';
+$data['billing_address']['province']	   = 'MI';
 
-//shipping info
-$shipping_address = $order_model->getShippingAddress();
-$sadd = $shipping_address->getStreet();
+// Shipping address
+$data['shipping_address']['first_name']    = "Jane";
+$data['shipping_address']['last_name'] 	   = "Great";
+$data['shipping_address']['name']   	     = "Jane Great";
+$data['shipping_address']['address1'] 	   = "192 Main Street";
+$data['shipping_address']['address2'] 	   = "Apartemnt 10";
+$data['shipping_address']['city'] 		     = "Kansas City";
+$data['shipping_address']['company'] 	     = "";
+$data['shipping_address']['country'] 	     = "United States";
+$data['shipping_address']['country_code']  = "US";
+$data['shipping_address']['phone'] 		     = "12345566";
+$data['shipping_address']['province'] 	   = "MI";
+$data['shipping_address']['zip'] 		       = "12345";
+$data['shipping_address']['province_code'] = NULL;
 
-$data['shipping_address']['first_name'] = $shipping_address->getFirstname();
-$data['shipping_address']['last_name'] 	= $shipping_address->getLastname();
-$data['shipping_address']['name']   	= $data['shipping_address']['first_name'] . " " . $data['shipping_address']['last_name'];
-$data['shipping_address']['address1'] 	= $sadd['0'];
-$data['shipping_address']['address2'] 	= $sadd['1'];
-$data['shipping_address']['city'] 		= $shipping_address->getCity();
-$data['shipping_address']['company'] 	= $shipping_address->getCompany();
-$data['shipping_address']['country'] 	= getCountyById($shipping_address->getCountryId())->getName();
-$data['shipping_address']['country_code'] = $shipping_address->getCountryId();
-$data['shipping_address']['phone'] 		= $shipping_address->getTelephone();
-$data['shipping_address']['province'] 	= $shipping_address->getRegion();
-$data['shipping_address']['zip'] 		= $shipping_address->getPostcode();
-$data['shipping_address']['province_code'] =NULL;
- */
-// json encode
 $data_string = json_encode($data);
 
-//generating hash 
+// Generating the signing hash 
 $hash_code = hash_hmac('sha256', $data_string, $auth_token);
 
-$ch = curl_init('http://s.riskified.com/webhooks/merchant_order_created');
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+// Send the request
+$ch = curl_init("http://$riskified_url/webhooks/merchant_order_created");
 curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
   'Content-Type: application/json',
@@ -178,5 +181,16 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 );
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
+echo("Sending request...\n");
 $result = curl_exec($ch);
+echo("Result is $result\n");
+
+$decodedResponse = json_decode($result);
+if(isset($decodedResponse->order))
+{
+  $orderId = $decodedResponse->order->id;
+  $status = $decodedResponse->order->status;
+  echo("Order $orderId status is $status\n");
+}
+
 ?>
