@@ -15,5 +15,5 @@ Stripe::Charge.create(amount: 100,
 		                 billing_company: 'Riskified',
 		                 billing_phone: '033456434',
 		                 email: 'schers@riskified.com',
-		                 browser_ip: '200.123.123.113‘})
+		                 browser_ip: '200.123.123.113'})
 ```
