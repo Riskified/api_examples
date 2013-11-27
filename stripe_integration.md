@@ -1,4 +1,4 @@
-In order to review charges Riskified will need to require name and address saved for the card.
+In order to review charges Riskified requires name and address saved for the card.
 we also require that you add the following metadata hash to the charge:
 
 ```ruby
