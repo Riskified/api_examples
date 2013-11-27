@@ -1,0 +1,76 @@
+{   "cancel_reason": "",
+    "cancelled_at": "",
+    "cart_token": "",
+    "closed_at": "",
+    "created_at": "2013-08-29T14:20:07",
+    "currency": "USD",
+    "email": "duffy@gmail.com",
+    "gateway": "authorize_net",
+    "id": 415461,
+    "name": "415461",
+    "total_discounts": "9.75",
+    "total_price": "42.75",
+    "total_price_usd": "42.75",
+    "updated_at": "2013-08-29T14:20:07",
+    "browser_ip": "5.29.165.121",
+    "line_items": [
+{
+    "title": "fancy beeper",
+    "price": "40.99",
+    "product_id": "446379",
+    "quantity": "1",
+    "sku": "fancy beeper"
+}
+],
+    "shipping_lines": [
+{
+    "code": "",
+    "price": "5",
+    "title": "Standard Shipping"
+}
+],
+    "payment_details": {
+        "avs_result_code": "Y",
+        "credit_card_bin": "418221",
+        "credit_card_company": "VISA",
+        "credit_card_number": "XXXX-XXXX-XXXX-7681",
+        "cvv_result_code": "M"
+    },
+    "billing_address": {
+        "address1": "1 main st",
+        "address2": "",
+        "city": " San Francisco",
+        "company": "",
+        "country": "US",
+        "country_code": "US",
+        "first_name": "Dennis",
+        "last_name": "Duffy",
+        "name": "Dennis Duffy",
+        "phone": "917-917-9177",
+        "province": "CA",
+        "province_code": "CA",
+        "zip": "99999"
+    },
+    "shipping_address": {
+        "address1": "1 main st",
+        "address2": "",
+        "city": " San Francisco",
+        "company": "",
+        "country": "US",
+        "country_code": "US",
+        "first_name": "Dennis",
+        "last_name": "Duffy",
+        "name": "",
+        "phone": "917-917-9177",
+        "province": "CA",
+        "province_code": "CA",
+        "zip": "99999"
+    },
+    "customer": {
+        "created_at": "2013-08-29T14:20:07",
+        "email": "dennis@gmail.com",
+        "first_name": "Dennis",
+        "id": 300514,
+        "last_name": "Duffy"
+    }
+}
