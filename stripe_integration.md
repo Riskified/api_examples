@@ -1,3 +1,5 @@
+<h1>Stripe gateway integration</h1>
+
 In order to review charges Riskified requires name and address saved for the card.
 we also require that you add the following metadata hash to the charge:
 
