@@ -1,3 +1,6 @@
+In order to review charges Riskified will need to require name and address saved for the card.
+we also require that you add the following metadata hash to the charge:
+
 ```ruby
 Stripe::Charge.create(amount: 100, 
 		      currency: 'usd',
