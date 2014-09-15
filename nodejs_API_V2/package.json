@@ -1,0 +1,10 @@
+{
+  "name": "riskified-api-samples",
+  "version": "0.0.0",
+  "description": "Riskified API V2 sample from node.js",
+  "main": "index.js",
+  "dependencies": {
+    "request": "~2.42.0",
+    "lodash": "~2.4.1"
+  }
+}
