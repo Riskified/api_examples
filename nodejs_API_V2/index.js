@@ -51,7 +51,7 @@ function generateRequest(path, order) {
     url: riskifiedBaseUrl + path,
     body: orderString,
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json; charset=utf-8",
       "ACCEPT": "application/vnd.riskified.com; version=2",
       "X_RISKIFIED_SHOP_DOMAIN": shopDomain,
       "X_RISKIFIED_HMAC_SHA256": verificationHash
