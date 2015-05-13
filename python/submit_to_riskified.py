@@ -123,10 +123,10 @@ def send_order_to_riskified( riskified_url, shop_url, auth_token, data_json, do_
 riskified_server_url="sandbox.riskified.com"
 
 # The login name to riskified.
-shop_url="skypicker.com" 
+shop_url="merchant.com" 
 
 # Taken from your Riskified account.
-auth_token="082e3f9a8ba75b616a0b127d6f44adfd"
+auth_token="354e3f9a8ba75b616a0b135d6f44addc"
 
 data_json = build_order_data()
 print data_json
